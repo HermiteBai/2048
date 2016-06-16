@@ -1,2 +1,3 @@
-all:
-	clang -o 2048 2048.c
+all: 2048.c
+clean:
+	rm -rf 2048 *.o
