@@ -108,22 +108,162 @@ void run(int size)
 
 int up(int size)
 {
-
+	for (int i = 1; i < size; i++)
+	{
+		for (int j = 0; j < size; j++)
+		{
+			if (battlefield[i][j] == 0)
+			{
+				continue;
+			}
+			else
+			{
+				flag = 1;
+				while (i >= 1 && (battlefield[i - 1][j] == 0 || battlefield[i][j] == battlefield[i - 1][j]))
+				{
+					if (battlefield[i - 1][j] == 0)
+					{
+						battlefield[i - 1][j] = battlefield[i][j];
+						battlefield[i][j] = 0;
+					}
+					else
+					{
+						Score += battlefield[i - 1][j];
+						battlefield[i - 1][j] *= 2;
+						battlefield[i][j] = 0;
+						blank++;
+						if (battlefield[i - 1][j] == 2048)
+							return 1;
+					}
+					i--;
+					system("clear");
+					print(size);
+					usleep(70000);
+				}
+			}
+		}
+	}
+	return 0;
 }
 
 int left(int size)
 {
-
+	for (int i = 1; i < size; i++)
+	{
+		for (int j = 0; j < size; j++)
+		{
+			if (battlefield[j][i] == 0)
+			{
+				continue;
+			}
+			else
+			{
+				flag = 1;
+				while (i >= 1 && (battlefield[j][i - 1] == 0 || battlefield[j][i] == battlefield[j][i - 1]))
+				{
+					if (battlefield[j][i - 1] == 0)
+					{
+						battlefield[j][i - 1] = battlefield[j][i];
+						battlefield[j][i] = 0;
+					}
+					else
+					{
+						Score += battlefield[j][i - 1];
+						battlefield[j][i - 1] *= 2;
+						battlefield[j][i] = 0;
+						blank++;
+						if (battlefield[j][i - 1] == 2048)
+							return 1;
+					}
+					i--;
+					system("clear");
+					print(size);
+					usleep(70000);
+				}
+			}
+		}
+	}
+	return 0;
 }
 
 int right(int size)
 {
-
+	for (int i = size - 2; i >= 0; i--)
+	{
+		for (int j = 0; j < size; j++)
+		{
+			if (battlefield[j][i] == 0)
+			{
+				continue;
+			}
+			else
+			{
+				flag = 1;
+				while (i <= size - 2 && (battlefield[j][i + 1] == 0 || battlefield[j][i] == battlefield[j][i + 1]))
+				{
+					if (battlefield[j][i + 1] == 0)
+					{
+						battlefield[j][i + 1] = battlefield[j][i];
+						battlefield[j][i] = 0;
+					}
+					else
+					{
+						Score += battlefield[j][i + 1];
+						battlefield[j][i + 1] *= 2;
+						battlefield[j][i] = 0;
+						blank++;
+						if (battlefield[j][i + 1] == 2048)
+							return 1;
+					}
+					i++;
+					system("clear");
+					print(size);
+					usleep(70000);
+				}
+			}
+		}
+	}
+	return 0;
 }
 
 int down(int size)
 {
-
+	for (int i = size - 2; i >= 0; i--)
+	{
+		for (int j = 0; j < size; j++)
+		{
+			if (battlefield[i][j] == 0)
+			{
+				continue;
+			}
+			else
+			{
+				flag = 1;
+				while (i <= size - 2 && (battlefield[i + 1][j] == 0 || battlefield[i][j] == battlefield[i + 1][j]))
+				{
+					if (battlefield[i + 1][j] == 0)
+					{
+						battlefield[i + 1][j] = battlefield[i][j];
+						battlefield[i][j] = 0;
+					}
+					else
+					{
+						Score += battlefield[i + 1][j];
+						battlefield[i + 1][j] *= 2;
+						battlefield[i][j] = 0;
+						blank++;
+						if (battlefield[i + 1][j] == 2048)
+							return 1;
+					}
+					i++;
+					system("clear");
+					print(size);
+					usleep(70000);
+				}
+			}
+		}
+	}
+	return 0;
 }
 
 void print(int size)
@@ -156,11 +296,13 @@ void addhelper(int size)
 		y = (rand() % size);
 	}
 	printf("x = %d, y = %d\n", x, y);
-	battlefield[y][x] = 2;
+	battlefield[y][x] = ((rand() % 10 == 9) ? 4 : 2);
 }
 
 int addnew(int size)
 {
+	if (flag == 0)
+		return 0;
 	if (blank <= 0)
 		return 1;
 	else
