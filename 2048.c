@@ -33,6 +33,11 @@ int main(int argc, char const *argv[])
 		puts(USAGE);
 		exit(1);
 	}
+	system("clear");
+	printf("Guide: Use w/s/a/d to control, q to quit\n");
+	printf("<Click any key to continue>\n");
+	char known = getchar();
+	system("clear");
 	start:
 	system("stty cooked");
 	battlefield = init(atoi(argv[1]));
@@ -95,7 +100,7 @@ void run()
 				break;
 			case 'q':
 				system("clear");
-				printf("Quit Game 2048\n");
+				printf("Quit Game 2048 with Score: %d\n", Score);
 				return;
 			default:
 				continue;
@@ -114,7 +119,7 @@ void run()
 			if (death)
 			{
 				system("clear");
-				puts("GAME OVER");
+				printf("GAME OVER with Score: %d\n", Score);
 				return;
 			}
 		}
@@ -159,7 +164,6 @@ int up()
 					}
 					i--;
 					print();
-					usleep(70000);
 				}
 			}
 		}
@@ -201,7 +205,6 @@ int left()
 					}
 					i--;
 					print();
-					usleep(70000);
 				}
 			}
 		}
@@ -243,7 +246,6 @@ int right()
 					}
 					i++;
 					print();
-					usleep(70000);
 				}
 			}
 		}
@@ -285,7 +287,6 @@ int down()
 					}
 					i++;
 					print();
-					usleep(70000);
 				}
 			}
 		}
@@ -312,6 +313,7 @@ void print()
 	for (int i = 0; i < size; i++)
 		printf("+------");
 	printf("+\n");
+	usleep(40000);
 }
 
 void addhelper()
