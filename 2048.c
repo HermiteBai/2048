@@ -23,6 +23,7 @@ void print();
 int addnew();
 void clean();
 void addhelper();
+void color(int num);
 
 int main(int argc, char const *argv[])
 {
@@ -46,6 +47,7 @@ int main(int argc, char const *argv[])
 	if (restart == 'y')
 	{
 		system("clear");
+		Score = 0;
 		goto start;
 	}
 	system("clear");
@@ -115,7 +117,6 @@ void run()
 			}
 		}
 		flag = 0;
-		system("clear");
 		print();
 		printf("Score: %d, Blank Left: %d\n", Score, blank);
 	}
@@ -148,10 +149,12 @@ int up()
 						battlefield[i][j] = 0;
 						blank++;
 						if (battlefield[i - 1][j] == 2048)
+						{
+							print();
 							return 1;
+						}
 					}
 					i--;
-					system("clear");
 					print();
 					usleep(70000);
 				}
@@ -188,10 +191,12 @@ int left()
 						battlefield[j][i] = 0;
 						blank++;
 						if (battlefield[j][i - 1] == 2048)
+						{
+							print();
 							return 1;
+						}
 					}
 					i--;
-					system("clear");
 					print();
 					usleep(70000);
 				}
@@ -228,10 +233,12 @@ int right()
 						battlefield[j][i] = 0;
 						blank++;
 						if (battlefield[j][i + 1] == 2048)
+						{
+							print();
 							return 1;
+						}
 					}
 					i++;
-					system("clear");
 					print();
 					usleep(70000);
 				}
@@ -268,10 +275,12 @@ int down()
 						battlefield[i][j] = 0;
 						blank++;
 						if (battlefield[i + 1][j] == 2048)
+						{
+							print();
 							return 1;
+						}
 					}
 					i++;
-					system("clear");
 					print();
 					usleep(70000);
 				}
@@ -283,6 +292,7 @@ int down()
 
 void print()
 {
+	system("clear");
 	for (int i = 0; i < size; i++)
 	{
 		for (int j = 0; j < size; j++)
@@ -290,7 +300,8 @@ void print()
 		printf("+\n");
 		for (int j = 0; j < size; j++)
 		{
-			printf("| %4d ", battlefield[i][j]);
+			color(battlefield[i][j]);
+			//printf("| %4d ", battlefield[i][j]);
 		}
 		printf("|\n");
 	}
@@ -334,4 +345,41 @@ void clean()
 		free(battlefield[i]);
 	}
 	free(battlefield);
+}
+
+void color(int num)
+{
+	switch(num)
+	{
+		case 0:
+			printf("|\33[37m %4d \33[0m", num);
+			break;
+		case 2:
+			printf("|\33[37m %4d \33[0m", num);
+			break;
+		case 4:
+			printf("|\33[37m %4d \33[0m", num);
+			break;
+		case 8:
+			printf("|\33[33m %4d \33[0m", num);
+			break;
+		case 16:
+			printf("|\33[32m %4d \33[0m", num);
+			break;
+		case 32:
+			printf("|\33[36m %4d \33[0m", num);
+			break;
+		case 64:
+			printf("|\33[34m %4d \33[0m", num);
+			break;
+		case 1024:
+			printf("|\33[35m %4d \33[0m", num);
+			break;
+		case 2048:
+			printf("|\33[31m %4d \33[0m", num);
+			break;
+		default:
+			break;
+
+	}
 }
