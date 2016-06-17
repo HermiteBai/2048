@@ -34,6 +34,7 @@ int main(int argc, char const *argv[])
 		exit(1);
 	}
 	start:
+	system("stty cooked");
 	battlefield = init(atoi(argv[1]));
 	addhelper(atoi(argv[1]));
 	blank--;
@@ -43,7 +44,9 @@ int main(int argc, char const *argv[])
 	clean();
 	char restart;
 	printf("Do you want to restart the game?(y/n)\n");
-	scanf("%c", &restart);
+	system("stty raw");
+	restart = getchar();
+
 	if (restart == 'y')
 	{
 		system("clear");
@@ -51,6 +54,7 @@ int main(int argc, char const *argv[])
 		goto start;
 	}
 	system("clear");
+	system("stty cooked");
 	return 0;
 }
 
@@ -69,12 +73,10 @@ int** init(int scale)
 void run()
 {
 	char operation;
-	char* buffer = NULL;
-	size_t length = 0;
-	while (getline(&buffer, &length, stdin) != -1)
+	system("stty raw");
+	while ((operation = getchar()) != EOF)
 	{
-		operation = buffer[0];
-
+		system("stty cooked");
 		int death = 0;
 		int success = 0;
 		switch (operation)
@@ -119,6 +121,7 @@ void run()
 		flag = 0;
 		print();
 		printf("Score: %d, Blank Left: %d\n", Score, blank);
+		system("stty raw");
 	}
 }
 
@@ -352,7 +355,7 @@ void color(int num)
 	switch(num)
 	{
 		case 0:
-			printf("|\33[37m %4d \33[0m", num);
+			printf("|\33[37m      \33[0m");
 			break;
 		case 2:
 			printf("|\33[37m %4d \33[0m", num);
@@ -370,6 +373,15 @@ void color(int num)
 			printf("|\33[36m %4d \33[0m", num);
 			break;
 		case 64:
+			printf("|\33[34m %4d \33[0m", num);
+			break;
+		case 128:
+			printf("|\33[34m %4d \33[0m", num);
+			break;
+		case 256:
+			printf("|\33[34m %4d \33[0m", num);
+			break;
+		case 512:
 			printf("|\33[34m %4d \33[0m", num);
 			break;
 		case 1024:
