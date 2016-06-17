@@ -8,20 +8,21 @@
 
 bool death = 0;
 int** battlefield = NULL;
+int size = 0;
 int Score = 0;
 int blank;
 int flag = 0;
 
-int** init(int size);
-void run(int size);
-int up(int size);
-int left(int size);
-int right(int size);
-int down(int size);
-void print(int size);
-int addnew(int size);
-void clean(int size);
-void addhelper(int size);
+int** init(int scale);
+void run();
+int up();
+int left();
+int right();
+int down();
+void print();
+int addnew();
+void clean();
+void addhelper();
 
 int main(int argc, char const *argv[])
 {
@@ -31,28 +32,39 @@ int main(int argc, char const *argv[])
 		puts(USAGE);
 		exit(1);
 	}
+	start:
 	battlefield = init(atoi(argv[1]));
 	addhelper(atoi(argv[1]));
-	//battlefield[0][0] = 2;
 	blank--;
-	print(atoi(argv[1]));
-	run(atoi(argv[1]));
-	clean(atoi(argv[1]));
+	print();
+	printf("Score: %d, Blank Left: %d\n", Score, blank);
+	run();
+	clean();
+	char restart;
+	printf("Do you want to restart the game?(y/n)\n");
+	scanf("%c", &restart);
+	if (restart == 'y')
+	{
+		system("clear");
+		goto start;
+	}
+	system("clear");
 	return 0;
 }
 
-int** init(int size)
+int** init(int scale)
 {
-	int** ret = (int**)calloc(size, sizeof(int*));
-	for (int i = 0; i < size; i++)
+	int** ret = (int**)calloc(scale, sizeof(int*));
+	for (int i = 0; i < scale; i++)
 	{
-		ret[i] = (int*)calloc(size, sizeof(int));
+		ret[i] = (int*)calloc(scale, sizeof(int));
 	}
+	size = scale;
 	blank = size * size;
 	return ret;
 }
 
-void run(int size)
+void run()
 {
 	char operation;
 	char* buffer = NULL;
@@ -66,16 +78,16 @@ void run(int size)
 		switch (operation)
 		{
 			case 'w':
-				success = up(size);
+				success = up();
 				break;
 			case 'a':
-				success = left(size);
+				success = left();
 				break;
 			case 'd':
-				success = right(size);
+				success = right();
 				break;
 			case 's':
-				success = down(size);
+				success = down();
 				break;
 			case 'q':
 				system("clear");
@@ -86,27 +98,30 @@ void run(int size)
 		}
 		if (success)
 		{
+			system("clear");
 			printf("Congratulations! You got score: %d\n", Score);
 			return;
 		}
 
 		if (flag)
 		{
-			death = addnew(size);
+			death = addnew();
 			flag = 0;
 			if (death)
 			{
+				system("clear");
 				puts("GAME OVER");
 				return;
 			}
 		}
+		flag = 0;
 		system("clear");
-		print(size);
+		print();
 		printf("Score: %d, Blank Left: %d\n", Score, blank);
 	}
 }
 
-int up(int size)
+int up()
 {
 	for (int i = 1; i < size; i++)
 	{
@@ -137,7 +152,7 @@ int up(int size)
 					}
 					i--;
 					system("clear");
-					print(size);
+					print();
 					usleep(70000);
 				}
 			}
@@ -146,7 +161,7 @@ int up(int size)
 	return 0;
 }
 
-int left(int size)
+int left()
 {
 	for (int i = 1; i < size; i++)
 	{
@@ -177,7 +192,7 @@ int left(int size)
 					}
 					i--;
 					system("clear");
-					print(size);
+					print();
 					usleep(70000);
 				}
 			}
@@ -186,7 +201,7 @@ int left(int size)
 	return 0;
 }
 
-int right(int size)
+int right()
 {
 	for (int i = size - 2; i >= 0; i--)
 	{
@@ -217,7 +232,7 @@ int right(int size)
 					}
 					i++;
 					system("clear");
-					print(size);
+					print();
 					usleep(70000);
 				}
 			}
@@ -226,7 +241,7 @@ int right(int size)
 	return 0;
 }
 
-int down(int size)
+int down()
 {
 	for (int i = size - 2; i >= 0; i--)
 	{
@@ -257,7 +272,7 @@ int down(int size)
 					}
 					i++;
 					system("clear");
-					print(size);
+					print();
 					usleep(70000);
 				}
 			}
@@ -266,7 +281,7 @@ int down(int size)
 	return 0;
 }
 
-void print(int size)
+void print()
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -285,7 +300,7 @@ void print(int size)
 	printf("+\n");
 }
 
-void addhelper(int size)
+void addhelper()
 {
 	srand(time(0));
 	int x = (rand() % size);
@@ -295,11 +310,10 @@ void addhelper(int size)
 		x = (rand() % size);
 		y = (rand() % size);
 	}
-	printf("x = %d, y = %d\n", x, y);
 	battlefield[y][x] = ((rand() % 10 == 9) ? 4 : 2);
 }
 
-int addnew(int size)
+int addnew()
 {
 	if (flag == 0)
 		return 0;
@@ -307,13 +321,13 @@ int addnew(int size)
 		return 1;
 	else
 	{
-		addhelper(size);
+		addhelper();
 		blank--;
 		return 0;
 	}	
 }
 
-void clean(int size)
+void clean()
 {
 	for (int i = 0; i < size; i++)
 	{
