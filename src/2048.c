@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include <time.h>
 
+#include "2048.h"
+
 #define USAGE "Usage: ./2048 <size>"
 
 bool death = 0;
@@ -12,18 +14,6 @@ int size = 0;
 int Score = 0;
 int blank;
 int flag = 0;
-
-int** init(int scale);
-void run();
-int up();
-int left();
-int right();
-int down();
-void print();
-int addnew();
-void clean();
-void addhelper();
-void color(int num);
 
 int main(int argc, char const *argv[])
 {
