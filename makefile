@@ -1,9 +1,11 @@
+SRC = src/2048.c
+BIN = bin/2048
 
 all: src bin
-	gcc -o ./bin/2048 ./src/2048.c
+	gcc -o $(BIN) $(SRC)
 src:
 	mkdir src
 bin:
 	mkdir bin
 clean:
-	rm -rf 2048 *.o
+	rm -rf bin
